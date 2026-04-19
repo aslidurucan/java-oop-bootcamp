@@ -1,6 +1,21 @@
 package com.n11.oop;
 
 public class Insan {
+
+    public Insan(){}
+
+    public Insan(String isim, String soyadi) {
+        ad = isim;
+        soyad = soyadi;
+    }
+
+    public Insan(String ad, String soyad, int yas, double maas, boolean cinsiyet){
+        this.ad = ad;
+        this.soyad = soyad;
+        this.yas = yas;
+        this.maas = maas;
+        this.cinsiyet = cinsiyet;
+    }
     public String ad;
     public String soyad;
     public int yas;

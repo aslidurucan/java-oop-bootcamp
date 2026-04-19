@@ -38,5 +38,23 @@ public class Main {
         b.soyad = "Durucan";
         b.ekranaYaz(b.ad, b.soyad);
         b.dinle(b.ad);
+
+        Insan i2 = new Insan("Hakan", "Yılmaz");
+        Insan i3 = new Insan("Metin" , "Yıldız" , 33, 3.14, true);
+        i2.ekranaYaz(i2.ad, i2.soyad);
+        i3.ekranaYaz(i3.ad, i3.soyad);
+
+        String[] gunler = new String[7];
+        gunler[0] = "pazartesi";
+        gunler[1] = "salı";
+        gunler[2] = "çarşamba";
+        gunler[3] = "perşembe";
+        gunler[4] = "cuma";
+        gunler[5] = "cumartesi";
+        gunler[6] = "pazar";
+
+        for(int z = 0; z < gunler.length; z++) {
+            System.out.println(gunler[z]);
+        }
     }
 }
