@@ -19,7 +19,7 @@ public class ServiceAspect {
         System.out.println("MesajVer metodundan önce çağrılan parametre"+joinPoint.getArgs()[0]);
     }
 
-    @After("execution(* com.n11.bootcamp.aopornek.aspect.*.*(..))")
+    @After("execution(* com.n11.bootcamp.aopornek.service.*.*(..))")
     public void MesajVerMetodundanSonra(JoinPoint joinPoint)
     {
         System.out.println("MesajVer metodundan sonra  çağrılan parametre"+joinPoint.getArgs()[0]);

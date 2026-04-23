@@ -1,5 +1,7 @@
 package com.n11bootcamp.springbootornek.service.impl;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project getById(Long id) {
-        Project project = projectRepository.getReferenceById(id);
+        Project project = projectRepository.findById(id).get();
         return project;
     }
 
@@ -40,6 +42,7 @@ public class ProjectServiceImpl implements ProjectService {
             throw new IllegalArgumentException("hatalı kayıt");
         }
         //insert into Project(ProjectName,ProjectCode) values(project.getProject)
+        project.setInsertDate(Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC)));
         Project projectDb= projectRepository.save(project);
 
         return projectDb;
