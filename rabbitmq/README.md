@@ -30,16 +30,9 @@ Bu proje, Spring Boot ile RabbitMQ kullanılarak Producer-Consumer mesajlaşma m
 * JSON mesajın otomatik deserializasyonu
 * `n11bootcamp_notification` kuyruğunu dinleme
 
-### Discovery Server (Eureka)
-* Netflix Eureka Server kurulumu
-* `@EnableEurekaServer` anotasyonu
-* Servis kayıt & keşif (Service Registration & Discovery)
-* Mikroservislerin Eureka'ya register edilmesi
-
 ## Teknolojiler
 * Java 21
 * Spring Boot
 * Spring AMQP (RabbitMQ)
-* Netflix Eureka Server
 * Maven
 * IntelliJ IDEA
