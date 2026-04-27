@@ -5,23 +5,26 @@ Bu proje, Spring Boot ve Spring Cloud kullanılarak gerçek hayat senaryosuna uy
 ## Mimari Genel Bakış
 
 ```
-                        ┌─────────────────┐
-                        │   API Gateway   │  ← Tek giriş noktası
-                        └────────┬────────┘
-                                 │
-          ┌──────────────────────┼──────────────────────┐
-          │                      │                      │
-   ┌──────▼──────┐      ┌────────▼───────┐    ┌────────▼───────┐
-   │ user-service│      │shopping-cart   │    │ order-service  │
-   └─────────────┘      │   -service     │    └────────┬───────┘
-                        └────────────────┘             │ RabbitMQ
-                                                ┌──────▼───────┐
-                                                │ stock-service│
-                                                └──────────────┘
-                                 │
-                        ┌────────▼────────┐
-                        │Discovery Server │  ← Eureka (servis kaydı)
-                        └─────────────────┘
+  ┌──────────────────┐   ┌──────────────────┐
+  │ Discovery Server │   │  Config Server   │
+  │  (Eureka)        │   │ (Spring Cloud)   │
+  └────────┬─────────┘   └────────┬─────────┘
+           │  Register & Discover  │ Merkezi config
+           └──────────┬────────────┘
+                      │
+             ┌────────▼────────┐
+             │   API Gateway   │  ← Tek giriş noktası
+             └────────┬────────┘
+                      │
+     ┌────────────────┼────────────────┐
+     │                │                │
+┌────▼─────┐  ┌───────▼──────┐  ┌─────▼────────┐
+│user-svc  │  │shopping-cart │  │order-service │
+└──────────┘  │   -service   │  └─────┬────────┘
+              └──────────────┘        │ RabbitMQ
+                                ┌─────▼────────┐
+                                │stock-service │
+                                └──────────────┘
 ```
 
 ## Servisler
@@ -32,6 +35,12 @@ Bu proje, Spring Boot ve Spring Cloud kullanılarak gerçek hayat senaryosuna uy
 * Tüm servislerin kayıt ve keşif merkezi
 * Servis sağlığı izleme
 
+### Config Server
+* Spring Cloud Config Server
+* `@EnableConfigServer` anotasyonu
+* `@EnableDiscoveryClient` — Eureka'ya kayıt
+* Tüm servislerin konfigürasyonunu merkezi olarak yönetme
+
 ### API Gateway
 * Spring Cloud Gateway
 * `@EnableDiscoveryClient` — Eureka'ya kayıt
@@ -39,12 +48,11 @@ Bu proje, Spring Boot ve Spring Cloud kullanılarak gerçek hayat senaryosuna uy
 * Cross-Origin (CORS) yapılandırması
 
 ### User Service
-* Kullanıcı kayıt (`/api/user/signup`) ve giriş (`/api/user/signin`)
+* Kullanıcı kayıt (`POST /api/user/signup`) ve giriş (`POST /api/user/signin`)
 * JWT tabanlı kimlik doğrulama
 * `JwtResponse` ile token dönüşü
 * Kullanıcı güncelleme (`PUT /api/user/update/{userId}`)
 * Kullanıcı silme (`DELETE /api/user/delete/{userId}`)
-* Keycloak entegrasyon dökümanı
 
 ### Shopping Cart Service
 * Sepet oluşturma (`POST /api/shopping-cart`)
@@ -62,7 +70,7 @@ Bu proje, Spring Boot ve Spring Cloud kullanılarak gerçek hayat senaryosuna uy
 * RabbitMQ ile `StockReserveRequestedEvent` yayınlama
 * `PaymentCardStore` — kart bilgisini RAM'de tutma (SAGA için)
 * Spring `ApplicationEventPublisher` ile iç event sistemi
-* `StockServiceClient` & `PaymentServiceClient` (Feign/HTTP)
+* `StockServiceClient` & `PaymentServiceClient` — Feign Client
 
 ### Stock Service
 * `ProductStock` entity — stok takibi
@@ -87,6 +95,10 @@ Bu proje, Spring Boot ve Spring Cloud kullanılarak gerçek hayat senaryosuna uy
 * RabbitMQ event'leri ile servisler arası iletişim
 * Compensating Transaction (telafi işlemi) desteği
 
+### Keycloak
+* Kimlik ve erişim yönetimi (Identity & Access Management)
+* Bootcamp kapsamında incelenen Keycloak entegrasyon dökümanı
+
 ### Mikroservis Design Pattern PDF
 * Bootcamp kapsamında incelenen mikroservis tasarım desenleri dökümanı
 
@@ -94,8 +106,10 @@ Bu proje, Spring Boot ve Spring Cloud kullanılarak gerçek hayat senaryosuna uy
 * Java 21
 * Spring Boot
 * Spring Cloud Gateway
+* Spring Cloud Config
 * Netflix Eureka (Service Discovery)
 * Spring AMQP (RabbitMQ)
+* OpenFeign (Feign Client)
 * Spring Data JPA
 * PostgreSQL
 * Maven
